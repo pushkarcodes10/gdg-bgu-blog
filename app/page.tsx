@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+
 
 // ── Types ──────────────────────────────────────────────────────────────────
 interface Article {
@@ -157,7 +159,7 @@ const globalStyles = `
     }
   }
 
-  /* Navbar inner — position:relative so nav-links can be centered absolutely */
+  /* Navbar inner */
   .nav-inner {
     max-width: 1200px;
     margin: 0 auto;
@@ -172,8 +174,7 @@ const globalStyles = `
     .nav-inner { padding: 0 20px; }
   }
 
-  /* Nav links: perfectly centered on desktop via absolute positioning,
-     completely hidden on mobile (they live inside the drawer instead) */
+  /* Nav links: centered on desktop, hidden on mobile */
   .nav-links {
     position: absolute;
     left: 50%;
@@ -241,6 +242,7 @@ const globalStyles = `
     cursor: pointer;
     display: flex;
     flex-direction: column;
+    text-decoration: none;
   }
   .article-card:hover {
     box-shadow: 0 8px 32px rgba(60,64,67,0.18);
@@ -294,15 +296,18 @@ function Navbar() {
       >
         <div className="nav-inner">
           {/* Logo */}
-          <GDGLogo />
+          <Link href="/" style={{ textDecoration: "none" }}>
+            <GDGLogo />
+          </Link>
 
-          {/* Nav Links — centered on desktop, hidden on mobile (in drawer instead) */}
+          {/* Nav Links — centered, hidden on mobile */}
           <div className="nav-links">
             {NAV_LINKS.map((link) => (
-              <button
+              <Link
                 key={link}
-                onClick={() => setActive(link)}
+                href={link === "Home" ? "/" : "/blogs"}
                 className={`nav-link${active === link ? " active" : ""}`}
+                onClick={() => setActive(link)}
                 style={{
                   background: "none",
                   border: "none",
@@ -313,10 +318,11 @@ function Navbar() {
                   fontWeight: active === link ? 600 : 400,
                   color: active === link ? "#1a73e8" : "#3c4043",
                   transition: "color 0.15s",
+                  textDecoration: "none",
                 }}
               >
                 {link}
-              </button>
+              </Link>
             ))}
           </div>
 
@@ -385,13 +391,13 @@ function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Drawer — Home, Blog, Subscribe, Login all inside */}
+      {/* Mobile Drawer */}
       {menuOpen && (
         <div className="mobile-drawer">
-          {/* Nav links */}
           {NAV_LINKS.map((link) => (
-            <button
+            <Link
               key={link}
+              href={link === "Home" ? "/" : "/blogs"}
               onClick={() => {
                 setActive(link);
                 setMenuOpen(false);
@@ -406,14 +412,14 @@ function Navbar() {
                 fontSize: 15,
                 fontWeight: active === link ? 600 : 400,
                 color: active === link ? "#1a73e8" : "#3c4043",
-                textAlign: "left",
+                textDecoration: "none",
+                display: "block",
               }}
             >
               {link}
-            </button>
+            </Link>
           ))}
 
-          {/* Subscribe + Login */}
           <div
             style={{
               borderTop: "1px solid #e8eaed",
@@ -561,22 +567,32 @@ function HeroSection() {
             className="hero-buttons"
             style={{ display: "flex", gap: 14, flexWrap: "wrap" as const }}
           >
-            <button
-              className="btn-primary"
-              style={{
-                background: "#1a73e8",
-                color: "#fff",
-                border: "none",
-                cursor: "pointer",
-                padding: "13px 28px",
-                borderRadius: 24,
-                fontFamily: "inherit",
-                fontSize: 15,
-                fontWeight: 500,
-              }}
+            {/* ✅ "Read Latest Posts" → /blogs */}
+            <Link href="/blogs" style={{ textDecoration: "none" }}>
+              <button
+                className="btn-primary"
+                style={{
+                  background: "#1a73e8",
+                  color: "#fff",
+                  border: "none",
+                  cursor: "pointer",
+                  padding: "13px 28px",
+                  borderRadius: 24,
+                  fontFamily: "inherit",
+                  fontSize: 15,
+                  fontWeight: 500,
+                }}
+              >
+                Read Latest Posts
+              </button>
+            </Link>
+
+            <a
+              href="https://chat.whatsapp.com/LLZTIbSQotaElCp2UXjGbe"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Read Latest Posts
-            </button>
+
             <button
               className="btn-outline"
               style={{
@@ -593,7 +609,8 @@ function HeroSection() {
               }}
             >
               Join Community
-            </button>
+              </button>
+            </a>
           </div>
 
           <div
@@ -732,7 +749,8 @@ function HeroSection() {
 // ── Article Card ───────────────────────────────────────────────────────────
 function ArticleCard({ article }: { article: Article }) {
   return (
-    <div className="article-card">
+    // ✅ Each featured card links to /blogs/[id]
+    <Link href={`/blogs/${article.id}`} className="article-card">
       <div
         style={{
           background: article.cardBg,
@@ -801,18 +819,13 @@ function ArticleCard({ article }: { article: Article }) {
         <p style={{ fontSize: 13, color: "#5f6368", lineHeight: 1.65, margin: 0, flex: 1 }}>
           {article.excerpt}
         </p>
-        <button
+        <span
           style={{
             marginTop: 18,
             alignSelf: "flex-start",
-            background: "none",
-            border: "none",
             color: "#1a73e8",
-            cursor: "pointer",
-            fontFamily: "inherit",
             fontSize: 13,
             fontWeight: 600,
-            padding: 0,
             display: "flex",
             alignItems: "center",
             gap: 4,
@@ -823,9 +836,9 @@ function ArticleCard({ article }: { article: Article }) {
             <line x1="5" y1="12" x2="19" y2="12" />
             <polyline points="12 5 19 12 12 19" />
           </svg>
-        </button>
+        </span>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -861,22 +874,26 @@ function LatestBlogSection() {
               Featured Articles
             </h2>
           </div>
-          <button
-            style={{
-              background: "none",
-              border: "1px solid #dadce0",
-              cursor: "pointer",
-              padding: "9px 22px",
-              borderRadius: 20,
-              fontFamily: "inherit",
-              fontSize: 14,
-              color: "#1a73e8",
-              fontWeight: 500,
-              transition: "border-color 0.2s",
-            }}
-          >
-            View all →
-          </button>
+
+          {/* ✅ "View all →" → /blogs */}
+          <Link href="/blogs" style={{ textDecoration: "none" }}>
+            <button
+              style={{
+                background: "none",
+                border: "1px solid #dadce0",
+                cursor: "pointer",
+                padding: "9px 22px",
+                borderRadius: 20,
+                fontFamily: "inherit",
+                fontSize: 14,
+                color: "#1a73e8",
+                fontWeight: 500,
+                transition: "border-color 0.2s",
+              }}
+            >
+              View all →
+            </button>
+          </Link>
         </div>
 
         <div className="articles-grid">
@@ -896,7 +913,7 @@ function Footer() {
       <div className="footer-inner">
         <GDGLogo />
         <div style={{ fontSize: 13, color: "#80868b", marginTop: 5 }}>
-          © {new Date().getFullYear()} GDG BGU Blog. All rights reserved.
+          © 2024 GDG BGU Blog. All rights reserved.
         </div>
         <div style={{ display: "flex", gap: 20, textAlign: "center", marginTop: 5 }}>
           {["Privacy", "Terms", "Contact"].map((item) => (
