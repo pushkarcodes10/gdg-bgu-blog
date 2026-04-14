@@ -408,7 +408,7 @@ function Footer() {
     <footer style={{ background: "#f8f9fa", borderTop: "1px solid #e8eaed" }}>
       <div className="footer-inner">
         <GDGLogo />
-        <div style={{ fontSize: 13, color: "#80868b", marginTop: 5 }}>© 2024 GDG BGU Blog. All rights reserved.</div>
+        <div style={{ fontSize: 13, color: "#80868b", marginTop: 5 }}>© 2026 GDG BGU Blog. All rights reserved.</div>
         <div style={{ display: "flex", gap: 20, marginTop: 5 }}>
           {["Privacy", "Terms", "Contact"].map((item) => (
             <span key={item} style={{ fontSize: 13, color: "#1a73e8", cursor: "pointer", fontWeight: 500 }}>{item}</span>
