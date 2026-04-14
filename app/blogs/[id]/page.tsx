@@ -23,8 +23,142 @@ interface BlogPost {
 
 // ── Full Blog Data ─────────────────────────────────────────────────────────
 const allBlogs: BlogPost[] = [
+  // ── NEW: IDs 1–4 ──────────────────────────────────────────────────────────
   {
     id: 1,
+    title: "Flutter & Mobile Dev",
+    author: "Authory Saram",
+    publishDate: "October 1, 2023",
+    readTime: 6,
+    category: "Mobile Dev",
+    categoryColor: "#38bdf8",
+    cardBg: "#1a1a2e",
+    icon: "📲",
+    excerpt:
+      "Developing with cross-platform frameworks to build elegant, high-performance mobile applications using Flutter and Dart.",
+    sections: [
+      {
+        heading: "Why Flutter for Mobile Development?",
+        body: "Flutter has rapidly emerged as one of the most popular frameworks for cross-platform mobile development, and for good reason. Built by Google, it allows developers to write a single codebase that compiles natively to Android, iOS, web, and even desktop. For student developers at BGU, this means faster iteration, unified codebases, and production-quality apps without needing two separate teams.\n\nAt GDG BGU, Flutter is the recommended framework for all new mobile projects. Over the past year, more than eight student-led projects have shipped using Flutter — ranging from campus event apps to healthcare dashboards. The learning curve is gentle, especially for students already familiar with object-oriented programming, and the widget ecosystem is rich enough to build sophisticated UIs without reinventing the wheel.",
+      },
+      {
+        heading: "Setting Up Your Flutter Environment",
+        body: "Getting started with Flutter is straightforward. Install the Flutter SDK from flutter.dev, set up either Android Studio or VS Code with the Flutter plugin, and run 'flutter doctor' to verify your environment. The CLI tool is excellent — it catches missing dependencies and guides you through fixes automatically.\n\nFor BGU students working on shared lab machines, we recommend using FVM (Flutter Version Management) to switch between Flutter versions cleanly. This avoids the common problem of one project requiring Flutter 3.10 while another needs 3.16. Our GDG setup guide, available on the community WhatsApp group, walks through FVM installation in under ten minutes.",
+      },
+      {
+        heading: "Building Your First Widget Tree",
+        body: "Everything in Flutter is a widget — from the app scaffold to a single padding value. This declarative UI model is different from the imperative approach of native Android or iOS development, but it quickly becomes intuitive. The key insight is to think of your UI as a function of state: when state changes, the widget tree re-renders accordingly.\n\nA practical first project we recommend is a campus notice board app. It uses a StatefulWidget at the root, a FutureBuilder to fetch notices from a Firebase Firestore collection, and a ListView.builder to render them. It covers state management, async data fetching, and dynamic lists — the three pillars of most real-world Flutter apps — in a manageable scope.",
+      },
+      {
+        heading: "State Management and Beyond",
+        body: "Once you've mastered StatefulWidget, the natural next step is exploring more scalable state management solutions. Provider is a great starting point — it's lightweight, officially recommended by the Flutter team, and sufficient for apps up to medium complexity. For larger projects, Riverpod and BLoC are the two most popular choices in the industry.\n\nGDG BGU runs a Flutter Study Jam every semester where we cover the Provider pattern, navigation with GoRouter, and integrating Firebase Auth and Firestore into a complete app. If you'd like to attend the next session or access our workshop recordings, join our WhatsApp community for updates.",
+      },
+    ],
+    tags: ["Flutter", "Mobile Dev", "Dart", "Cross-Platform"],
+    relatedIds: [3, 8],
+  },
+  {
+    id: 2,
+    title: "AI in Healthcare",
+    author: "Annan Kager",
+    publishDate: "October 8, 2023",
+    readTime: 7,
+    category: "AI",
+    categoryColor: "#818cf8",
+    cardBg: "#0f172a",
+    icon: "🏥",
+    excerpt:
+      "Leveraging AI for predictive diagnostics and research breakthroughs in modern medicine and campus health initiatives.",
+    sections: [
+      {
+        heading: "The Intersection of AI and Medicine",
+        body: "Artificial intelligence is transforming healthcare at a pace that few industries have ever witnessed. From AI-assisted radiology that detects tumors in CT scans with accuracy rivaling experienced radiologists, to natural language processing tools that extract structured insights from unstructured clinical notes, the applications are both broad and profound.\n\nAt BGU, the Computer Science and Life Sciences departments have begun a joint research initiative exploring how machine learning models can support the campus health center. The first project — a symptom triage chatbot built on a fine-tuned language model — is currently in a pilot phase, helping students navigate appointment booking and preliminary health queries before speaking with a physician.",
+      },
+      {
+        heading: "Predictive Diagnostics: How It Works",
+        body: "Predictive diagnostic models are trained on large labeled datasets of patient records, imaging data, or genomic sequences. The model learns statistical associations between input features (symptoms, test results, demographic data) and outcomes (diagnoses, disease progression, treatment responses). Once trained and validated, these models can assist clinicians by flagging high-risk patients or suggesting differential diagnoses.\n\nA team of BGU students worked with a publicly available diabetic retinopathy dataset from Kaggle, training a convolutional neural network to classify fundus images into five severity grades. Their model achieved 87% accuracy on the test set — a result that earned them first place at the BGU Research Symposium and a presentation slot at a regional AI conference.",
+      },
+      {
+        heading: "Ethics and Responsibility in Medical AI",
+        body: "The promise of AI in healthcare comes with significant ethical responsibilities. Bias in training data can lead to models that perform well for one demographic but poorly for another — a problem with real-world consequences when deployed in clinical settings. Transparency, explainability, and rigorous validation are non-negotiable requirements for any AI system that touches patient care.\n\nGDG BGU hosted a panel discussion last semester on responsible AI in medicine, bringing together faculty from Computer Science, Biomedical Engineering, and Philosophy. The consensus: technical capability must always be paired with ethical scrutiny. Students building health-related AI projects are encouraged to include bias audits and explainability analyses as standard components of their work.",
+      },
+      {
+        heading: "What BGU Students Are Building",
+        body: "Beyond the retinopathy project, several other student teams are working at the AI-healthcare intersection. One team is building a mental health sentiment tracker that anonymously analyzes student forum posts to identify early warning signals of distress, with the aim of enabling proactive outreach by the campus counseling center. Another is developing a medication adherence reminder system using personalized NLP-generated messages.\n\nIf you're interested in contributing to any of these projects or starting your own, GDG BGU can connect you with faculty mentors and computational resources through the Google Cloud for Students program. Reach out through our WhatsApp community to learn more.",
+      },
+    ],
+    tags: ["AI", "Healthcare", "ML", "Ethics"],
+    relatedIds: [6, 10],
+  },
+  {
+    id: 3,
+    title: "Google Cloud Workshop",
+    author: "Aram Negev",
+    publishDate: "October 15, 2023",
+    readTime: 5,
+    category: "Cloud",
+    categoryColor: "#4285F4",
+    cardBg: "#e8f0fe",
+    icon: "☁️",
+    excerpt:
+      "Practical applications of Google Cloud services for scalable, production-ready solutions built and tested at BGU.",
+    sections: [
+      {
+        heading: "About the Workshop",
+        body: "GDG BGU's Google Cloud Workshop is a hands-on, full-day event that takes students from zero cloud knowledge to deploying a production-ready application on Google Cloud Platform (GCP). This semester's edition drew 65 participants from four different departments — the largest turnout in the workshop's three-year history.\n\nThe day was structured in three blocks: a morning session on GCP fundamentals (IAM, Compute Engine, Cloud Storage), an afternoon deep-dive into serverless architectures with Cloud Run and Cloud Functions, and an evening capstone where teams deployed their own microservice to GCP and connected it to a frontend hosted on Firebase Hosting.",
+      },
+      {
+        heading: "Key Services Covered",
+        body: "The workshop focused on five core GCP services most relevant to student projects. Cloud Run was the star of the day — its ability to deploy containerized applications with zero server management and automatic scaling resonated strongly with students who had previously struggled with configuring and maintaining virtual machines.\n\nCloud Firestore (covered in the afternoon block) enabled participants to build a real-time collaborative note-taking app in under 90 minutes. Firebase Authentication rounded out the stack, adding Google Sign-In in fewer than 20 lines of code. By the end of the day, every team had a live URL they could share — a tangible outcome that generated significant excitement in the room.",
+      },
+      {
+        heading: "Student Project Highlights",
+        body: "The capstone session produced some genuinely impressive projects. One team built a real-time campus bus tracker using Cloud Pub/Sub and Google Maps Platform, pulling simulated GPS data through a Cloud Function and displaying live positions on a map embedded in a Flutter web app. Another team deployed a serverless REST API for a second-hand book exchange platform, with Cloud Firestore as the database and Cloud Run handling the Express.js backend.\n\nAll capstone projects were open-sourced and are available in the GDG BGU GitHub organization. The bus tracker project subsequently caught the attention of the campus administration, who are now in discussions with the team about a potential pilot deployment.",
+      },
+      {
+        heading: "How to Access GCP for Free",
+        body: "Google provides generous free-tier access to GCP, and students are eligible for additional credits through the Google Cloud for Students program. GDG BGU can facilitate access to these credits — members who attend a workshop or community meetup can apply for $300 in free GCP credits valid for 90 days, more than enough to run the services covered in the workshop at learning-scale volumes.\n\nOur next workshop is scheduled for next semester. In the meantime, we've published the full workshop curriculum, slide decks, and Qwiklabs links on our community resources page. Join our WhatsApp group for the access link and to get notified when registration opens.",
+      },
+    ],
+    tags: ["Google Cloud", "Cloud Run", "Firebase", "Workshop"],
+    relatedIds: [5, 1],
+  },
+  {
+    id: 4,
+    title: "BGU Tech Projects Showcase",
+    author: "Student Projects Team",
+    publishDate: "October 20, 2023",
+    readTime: 4,
+    category: "Showcase",
+    categoryColor: "#34d399",
+    cardBg: "#1e293b",
+    icon: "🚀",
+    excerpt:
+      "Student Projects Showcase: innovative, locally-crafted creations by talented BGU developers presented at the annual showcase event.",
+    sections: [
+      {
+        heading: "About the Showcase",
+        body: "The BGU Tech Projects Showcase is GDG BGU's flagship annual event, bringing together the best student-built technology projects from across the university for a day of demonstrations, judging, and community celebration. This year's edition featured 24 projects across five categories: Mobile Apps, Web Platforms, AI & Data Science, IoT & Hardware, and Social Impact Tech.\n\nOver 300 students, faculty members, and industry guests attended the event, which was held in the BGU main auditorium and spilled over into the adjacent engineering corridor where hardware projects were demonstrated. A panel of five judges — including two alumni currently working at Google and Microsoft — evaluated projects on innovation, technical execution, real-world impact, and presentation quality.",
+      },
+      {
+        heading: "Top Projects of the Year",
+        body: "This year's Best Overall Project award went to CampusConnect — a Flutter app that integrates class schedules, campus navigation, event discovery, and peer tutoring into a single unified experience. The team of four spent six months building and iterating on the app, and it currently has over 400 active users among the student body.\n\nThe AI & Data Science category winner was a crop disease detection model trained on a dataset of 50,000 leaf images, designed to assist smallholder farmers in the region. The project was built in collaboration with the BGU Agriculture faculty and has been shortlisted for a national student innovation competition. The IoT category was won by a smart energy monitoring system that tracks power consumption across lab equipment in the engineering building in real time.",
+      },
+      {
+        heading: "Behind the Scenes: How Teams Prepared",
+        body: "Building a showcase-worthy project is a months-long endeavor. Teams that performed well this year shared a common approach: they started with a clearly defined problem, validated it with real users early, and maintained a disciplined weekly sprint rhythm throughout development.\n\nGDG BGU supported showcase participants through monthly check-in sessions where teams could present their progress, get feedback from mentors, and troubleshoot technical blockers. Teams also had access to GCP credits, Firebase support, and a shared hardware lab stocked with Raspberry Pi units, Arduino kits, and sensor components.",
+      },
+      {
+        heading: "How to Participate Next Year",
+        body: "Applications for next year's showcase will open in February. Teams of two to five students from any department are eligible to apply. There are no restrictions on technology stack or project domain — the only requirement is that the project solves a real problem and has a working prototype at the time of submission.\n\nIf you're thinking about participating, the best time to start is now. Come to a GDG BGU community meetup, share your idea, and find teammates. Some of this year's winning teams formed at exactly this kind of casual community gathering six months before the showcase. Join our WhatsApp community to stay updated on meetup schedules and showcase announcements.",
+      },
+    ],
+    tags: ["Showcase", "Student Projects", "Innovation", "GDG"],
+    relatedIds: [1, 7],
+  },
+  // ── EXISTING: IDs 5–10 ────────────────────────────────────────────────────
+  {
+    id: 5,
     title: "Demystifying Cloud Computing on Campus",
     author: "Alex Johnson",
     publishDate: "October 26, 2023",
@@ -54,10 +188,10 @@ const allBlogs: BlogPost[] = [
       },
     ],
     tags: ["Cloud", "Google Cloud", "Firebase", "Students"],
-    relatedIds: [2, 4],
+    relatedIds: [6, 8],
   },
   {
-    id: 2,
+    id: 6,
     title: "The Future of Robotics: A Campus Perspective",
     author: "Priya Mehta",
     publishDate: "October 26, 2023",
@@ -87,10 +221,10 @@ const allBlogs: BlogPost[] = [
       },
     ],
     tags: ["Robotics", "AI", "Automation", "ML"],
-    relatedIds: [1, 6],
+    relatedIds: [5, 8],
   },
   {
-    id: 3,
+    id: 7,
     title: "Optimizing Stadium Operations with Tech",
     author: "Rohan Das",
     publishDate: "October 26, 2023",
@@ -120,10 +254,10 @@ const allBlogs: BlogPost[] = [
       },
     ],
     tags: ["IoT", "Events", "Firebase", "Innovation"],
-    relatedIds: [4, 5],
+    relatedIds: [8, 9],
   },
   {
-    id: 4,
+    id: 8,
     title: "From Code to Campus: Building an App",
     author: "Sara Nkosi",
     publishDate: "October 26, 2023",
@@ -153,10 +287,10 @@ const allBlogs: BlogPost[] = [
       },
     ],
     tags: ["Flutter", "Firebase", "App Dev", "UX"],
-    relatedIds: [1, 3],
+    relatedIds: [5, 7],
   },
   {
-    id: 5,
+    id: 9,
     title: "Optimizing Innovations with Tech",
     author: "James Okafor",
     publishDate: "November 3, 2023",
@@ -186,10 +320,10 @@ const allBlogs: BlogPost[] = [
       },
     ],
     tags: ["AI", "Sustainability", "Cloud", "Campus"],
-    relatedIds: [3, 6],
+    relatedIds: [7, 10],
   },
   {
-    id: 6,
+    id: 10,
     title: "Intro to Machine Learning for Beginners",
     author: "Ananya Iyer",
     publishDate: "November 10, 2023",
@@ -219,7 +353,7 @@ const allBlogs: BlogPost[] = [
       },
     ],
     tags: ["ML", "Python", "Beginner", "AI"],
-    relatedIds: [2, 5],
+    relatedIds: [6, 9],
   },
 ];
 
@@ -297,7 +431,6 @@ const globalStyles = `
     .footer-inner { flex-direction: column; align-items: center; text-align: center; padding: 28px 20px; }
   }
 
-  /* Blog detail layout */
   .blog-detail-layout {
     display: grid;
     grid-template-columns: 1fr 300px;
@@ -314,7 +447,6 @@ const globalStyles = `
     .blog-detail-layout { padding: 24px 16px; }
   }
 
-  /* Article body prose */
   .prose-section { margin-bottom: 36px; }
   .prose-section h2 {
     font-size: 22px;
@@ -330,7 +462,6 @@ const globalStyles = `
     margin-bottom: 16px;
   }
 
-  /* Related card hover */
   .related-card {
     border-radius: 14px;
     overflow: hidden;
@@ -345,7 +476,6 @@ const globalStyles = `
     transform: translateY(-3px);
   }
 
-  /* Sidebar card */
   .sidebar-card {
     background: #fff;
     border-radius: 16px;
@@ -365,7 +495,6 @@ const globalStyles = `
   .recent-item:last-child { border-bottom: none; }
   .recent-item:hover .recent-title { color: #1a73e8; }
 
-  /* Tag pills */
   .tag-pill {
     display: inline-flex;
     align-items: center;
@@ -381,7 +510,6 @@ const globalStyles = `
   }
   .tag-pill:hover { border-color: #1a73e8; color: #1a73e8; background: #e8f0fe; }
 
-  /* Progress bar */
   .reading-progress {
     position: fixed;
     top: 64px;
@@ -392,7 +520,6 @@ const globalStyles = `
     transition: width 0.1s linear;
   }
 
-  /* Back button */
   .back-btn {
     display: inline-flex;
     align-items: center;
@@ -410,7 +537,6 @@ const globalStyles = `
   }
   .back-btn:hover { gap: 10px; }
 
-  /* Share button */
   .share-btn {
     display: inline-flex;
     align-items: center;
@@ -428,7 +554,6 @@ const globalStyles = `
   }
   .share-btn:hover { border-color: #1a73e8; color: #1a73e8; }
 
-  /* Btn effects */
   .btn-primary { transition: background 0.2s, transform 0.15s; }
   .btn-primary:hover { background: #1558b0 !important; transform: translateY(-1px); }
 `;
@@ -461,7 +586,6 @@ function Navbar() {
           <Link href="/" style={{ textDecoration: "none" }}>
             <GDGLogo />
           </Link>
-
           <div className="nav-links">
             {NAV_LINKS.map((link) => (
               <Link
@@ -480,7 +604,6 @@ function Navbar() {
               </Link>
             ))}
           </div>
-
           <div className="nav-cta">
             <button className="btn-primary" style={{ background: "#1a73e8", color: "#fff", border: "none", cursor: "pointer", padding: "8px 22px", borderRadius: 20, fontFamily: "inherit", fontSize: 14, fontWeight: 500 }}>
               Subscribe
@@ -492,7 +615,6 @@ function Navbar() {
               Login
             </button>
           </div>
-
           <button className="hamburger" onClick={() => setMenuOpen((v) => !v)} aria-label="Toggle menu">
             <span style={{ transform: menuOpen ? "rotate(45deg) translate(5px, 5px)" : "none" }} />
             <span style={{ opacity: menuOpen ? 0 : 1 }} />
@@ -500,7 +622,6 @@ function Navbar() {
           </button>
         </div>
       </nav>
-
       {menuOpen && (
         <div className="mobile-drawer">
           {NAV_LINKS.map((link) => (
@@ -553,21 +674,17 @@ function Footer() {
 // ── Hero Banner ────────────────────────────────────────────────────────────
 function BlogHero({ blog }: { blog: BlogPost }) {
   return (
-    <div
-      style={{
-        background: "linear-gradient(135deg, #e8f0fe 0%, #fce8e6 40%, #dcfce7 100%)",
-        borderBottom: "1px solid #e8eaed",
-        padding: "48px 60px 40px",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      {/* Decorative floating blobs */}
+    <div style={{
+      background: "linear-gradient(135deg, #e8f0fe 0%, #fce8e6 40%, #dcfce7 100%)",
+      borderBottom: "1px solid #e8eaed",
+      padding: "48px 60px 40px",
+      position: "relative",
+      overflow: "hidden",
+    }}>
       <div style={{ position: "absolute", top: -40, right: -40, width: 200, height: 200, borderRadius: "50%", background: "rgba(26,115,232,0.06)", pointerEvents: "none" }} />
       <div style={{ position: "absolute", bottom: -60, left: "40%", width: 280, height: 280, borderRadius: "50%", background: "rgba(52,168,83,0.05)", pointerEvents: "none" }} />
 
       <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative" }}>
-        {/* Breadcrumb */}
         <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: "#80868b", marginBottom: 24 }}>
           <Link href="/" style={{ color: "#1a73e8", textDecoration: "none", fontWeight: 500 }}>Home</Link>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#80868b" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg>
@@ -576,71 +693,31 @@ function BlogHero({ blog }: { blog: BlogPost }) {
           <span style={{ color: "#3c4043", maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{blog.title}</span>
         </div>
 
-        {/* Category badge */}
-        <div
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            background: blog.categoryColor + "18",
-            border: `1px solid ${blog.categoryColor}44`,
-            borderRadius: 20,
-            padding: "5px 14px",
-            fontSize: 11,
-            fontWeight: 600,
-            color: blog.categoryColor,
-            letterSpacing: "0.5px",
-            marginBottom: 20,
-            textTransform: "uppercase" as const,
-          }}
-        >
+        <div style={{
+          display: "inline-flex", alignItems: "center", gap: 8,
+          background: blog.categoryColor + "18", border: `1px solid ${blog.categoryColor}44`,
+          borderRadius: 20, padding: "5px 14px", fontSize: 11, fontWeight: 600,
+          color: blog.categoryColor, letterSpacing: "0.5px", marginBottom: 20, textTransform: "uppercase" as const,
+        }}>
           <span style={{ fontSize: 14 }}>{blog.icon}</span>
           {blog.category}
         </div>
 
-        {/* Title */}
-        <h1
-          className="fade-up"
-          style={{
-            fontSize: "clamp(28px, 4vw, 48px)",
-            fontWeight: 700,
-            color: "#202124",
-            letterSpacing: "-0.8px",
-            lineHeight: 1.15,
-            marginBottom: 24,
-            maxWidth: 800,
-          }}
-        >
+        <h1 className="fade-up" style={{
+          fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, color: "#202124",
+          letterSpacing: "-0.8px", lineHeight: 1.15, marginBottom: 24, maxWidth: 800,
+        }}>
           {blog.title}
         </h1>
 
-        {/* Meta row */}
-        <div
-          className="fade-up"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 20,
-            flexWrap: "wrap" as const,
-          }}
-        >
-          {/* Author */}
+        <div className="fade-up" style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" as const }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: "50%",
-                background: "linear-gradient(135deg, #1a73e8, #34A853)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 15,
-                color: "#fff",
-                fontWeight: 700,
-                flexShrink: 0,
-              }}
-            >
+            <div style={{
+              width: 40, height: 40, borderRadius: "50%",
+              background: "linear-gradient(135deg, #1a73e8, #34A853)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: 15, color: "#fff", fontWeight: 700, flexShrink: 0,
+            }}>
               {blog.author.charAt(0)}
             </div>
             <div>
@@ -648,20 +725,14 @@ function BlogHero({ blog }: { blog: BlogPost }) {
               <div style={{ fontSize: 12, color: "#80868b" }}>Author</div>
             </div>
           </div>
-
           <div style={{ width: 1, height: 32, background: "#dadce0" }} />
-
-          {/* Date */}
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5f6368" strokeWidth="2">
               <rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
             </svg>
             <span style={{ fontSize: 14, color: "#5f6368" }}>{blog.publishDate}</span>
           </div>
-
           <div style={{ width: 1, height: 32, background: "#dadce0" }} />
-
-          {/* Read time */}
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5f6368" strokeWidth="2">
               <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
@@ -678,32 +749,14 @@ function BlogHero({ blog }: { blog: BlogPost }) {
 function RelatedCard({ blog }: { blog: BlogPost }) {
   return (
     <Link href={`/blogs/${blog.id}`} className="related-card">
-      <div
-        style={{
-          background: blog.cardBg,
-          height: 100,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          position: "relative",
-        }}
-      >
+      <div style={{ background: blog.cardBg, height: 100, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
         <span style={{ fontSize: 36, filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.18))" }}>{blog.icon}</span>
-        <span
-          style={{
-            position: "absolute",
-            top: 10,
-            left: 10,
-            background: blog.categoryColor + "28",
-            border: `1px solid ${blog.categoryColor}55`,
-            color: blog.categoryColor,
-            fontSize: 10,
-            fontWeight: 600,
-            padding: "2px 8px",
-            borderRadius: 10,
-            letterSpacing: "0.5px",
-          }}
-        >
+        <span style={{
+          position: "absolute", top: 10, left: 10,
+          background: blog.categoryColor + "28", border: `1px solid ${blog.categoryColor}55`,
+          color: blog.categoryColor, fontSize: 10, fontWeight: 600,
+          padding: "2px 8px", borderRadius: 10, letterSpacing: "0.5px",
+        }}>
           {blog.category}
         </span>
       </div>
@@ -724,7 +777,6 @@ function DetailSidebar({ currentId }: { currentId: number }) {
 
   return (
     <aside className="detail-sidebar">
-      {/* Table of Contents placeholder */}
       <div className="sidebar-card">
         <h3 style={{ fontSize: 15, fontWeight: 700, color: "#202124", marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ width: 3, height: 18, background: "#1a73e8", borderRadius: 2, display: "inline-block" }} />
@@ -738,7 +790,6 @@ function DetailSidebar({ currentId }: { currentId: number }) {
         ))}
       </div>
 
-      {/* Recent Posts */}
       <div className="sidebar-card">
         <h3 style={{ fontSize: 15, fontWeight: 700, color: "#202124", marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ width: 3, height: 18, background: "#34A853", borderRadius: 2, display: "inline-block" }} />
@@ -757,7 +808,6 @@ function DetailSidebar({ currentId }: { currentId: number }) {
         ))}
       </div>
 
-      {/* Newsletter CTA */}
       <div style={{ background: "linear-gradient(135deg, #1a73e8 0%, #34A853 100%)", borderRadius: 16, padding: "22px 20px", textAlign: "center" }}>
         <div style={{ fontSize: 24, marginBottom: 10 }}>📬</div>
         <h3 style={{ fontSize: 14, fontWeight: 700, color: "#fff", marginBottom: 8 }}>Stay in the Loop</h3>
@@ -799,7 +849,6 @@ export default function BlogDetailPage() {
   const [readProgress, setReadProgress] = useState(0);
   const [copied, setCopied] = useState(false);
 
-  // Reading progress tracker
   const handleScroll = () => {
     const el = document.documentElement;
     const scrolled = el.scrollTop;
@@ -824,41 +873,26 @@ export default function BlogDetailPage() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#f8f9fa" }}>
-      {/* Reading progress bar */}
       <div className="reading-progress" style={{ width: `${readProgress}%` }} />
-
       <Navbar />
       <BlogHero blog={blog} />
 
       <div className="blog-detail-layout">
-        {/* ── Main Article Content ── */}
         <main className="fade-up">
-          {/* Excerpt / intro card */}
-          <div
-            style={{
-              background: "#fff",
-              borderRadius: 16,
-              padding: "24px 28px",
-              boxShadow: "0 2px 8px rgba(60,64,67,0.10)",
-              borderLeft: `4px solid ${blog.categoryColor}`,
-              marginBottom: 36,
-            }}
-          >
+          <div style={{
+            background: "#fff", borderRadius: 16, padding: "24px 28px",
+            boxShadow: "0 2px 8px rgba(60,64,67,0.10)",
+            borderLeft: `4px solid ${blog.categoryColor}`, marginBottom: 36,
+          }}>
             <p style={{ fontSize: 17, lineHeight: 1.8, color: "#3c4043", fontStyle: "italic", margin: 0 }}>
               {blog.excerpt}
             </p>
           </div>
 
-          {/* Article sections */}
-          <div
-            style={{
-              background: "#fff",
-              borderRadius: 16,
-              padding: "36px 40px",
-              boxShadow: "0 2px 8px rgba(60,64,67,0.10)",
-              marginBottom: 32,
-            }}
-          >
+          <div style={{
+            background: "#fff", borderRadius: 16, padding: "36px 40px",
+            boxShadow: "0 2px 8px rgba(60,64,67,0.10)", marginBottom: 32,
+          }}>
             {blog.sections.map((section, idx) => (
               <div key={idx} className="prose-section">
                 <h2>{section.heading}</h2>
@@ -872,21 +906,12 @@ export default function BlogDetailPage() {
             ))}
           </div>
 
-          {/* Tags + Share row */}
-          <div
-            style={{
-              background: "#fff",
-              borderRadius: 16,
-              padding: "20px 28px",
-              boxShadow: "0 2px 8px rgba(60,64,67,0.10)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              flexWrap: "wrap" as const,
-              gap: 16,
-              marginBottom: 40,
-            }}
-          >
+          <div style={{
+            background: "#fff", borderRadius: 16, padding: "20px 28px",
+            boxShadow: "0 2px 8px rgba(60,64,67,0.10)",
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            flexWrap: "wrap" as const, gap: 16, marginBottom: 40,
+          }}>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" as const, alignItems: "center" }}>
               <span style={{ fontSize: 13, color: "#80868b", fontWeight: 500, marginRight: 4 }}>Tags:</span>
               {blog.tags.map((tag) => (
@@ -902,34 +927,17 @@ export default function BlogDetailPage() {
             </button>
           </div>
 
-          {/* Author bio card */}
-          <div
-            style={{
-              background: "linear-gradient(135deg, #e8f0fe 0%, #dcfce7 100%)",
-              borderRadius: 16,
-              padding: "28px 32px",
-              display: "flex",
-              gap: 20,
-              alignItems: "center",
-              marginBottom: 40,
-              flexWrap: "wrap" as const,
-            }}
-          >
-            <div
-              style={{
-                width: 64,
-                height: 64,
-                borderRadius: "50%",
-                background: "linear-gradient(135deg, #1a73e8, #34A853)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 24,
-                color: "#fff",
-                fontWeight: 700,
-                flexShrink: 0,
-              }}
-            >
+          <div style={{
+            background: "linear-gradient(135deg, #e8f0fe 0%, #dcfce7 100%)",
+            borderRadius: 16, padding: "28px 32px",
+            display: "flex", gap: 20, alignItems: "center", marginBottom: 40, flexWrap: "wrap" as const,
+          }}>
+            <div style={{
+              width: 64, height: 64, borderRadius: "50%",
+              background: "linear-gradient(135deg, #1a73e8, #34A853)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: 24, color: "#fff", fontWeight: 700, flexShrink: 0,
+            }}>
               {blog.author.charAt(0)}
             </div>
             <div style={{ flex: 1 }}>
@@ -941,7 +949,6 @@ export default function BlogDetailPage() {
             </div>
           </div>
 
-          {/* Related articles */}
           {relatedBlogs.length > 0 && (
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
@@ -956,7 +963,6 @@ export default function BlogDetailPage() {
             </div>
           )}
 
-          {/* Back to all blogs */}
           <div style={{ marginTop: 48, paddingTop: 28, borderTop: "1px solid #e8eaed" }}>
             <Link href="/blogs" className="back-btn">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -967,7 +973,6 @@ export default function BlogDetailPage() {
           </div>
         </main>
 
-        {/* ── Sidebar ── */}
         <DetailSidebar currentId={id} />
       </div>
 
