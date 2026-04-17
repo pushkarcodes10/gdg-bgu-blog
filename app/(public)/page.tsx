@@ -344,6 +344,8 @@ function Navbar() {
             >
               Subscribe
             </button>
+
+           <Link href="/login-and-signup" style={{ textDecoration: "none" }}>
             <button
               style={{
                 background: "none",
@@ -376,6 +378,7 @@ function Navbar() {
               </div>
               Login
             </button>
+          </Link>
           </div>
 
           {/* Hamburger — mobile only */}
