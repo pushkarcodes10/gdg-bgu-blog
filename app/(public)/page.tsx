@@ -344,6 +344,8 @@ function Navbar() {
             >
               Subscribe
             </button>
+
+           <Link href="/login-and-signup" style={{ textDecoration: "none" }}>
             <button
               style={{
                 background: "none",
@@ -376,6 +378,7 @@ function Navbar() {
               </div>
               Login
             </button>
+          </Link>
           </div>
 
           {/* Hamburger — mobile only */}
@@ -913,7 +916,7 @@ function Footer() {
       <div className="footer-inner">
         <GDGLogo />
         <div style={{ fontSize: 13, color: "#80868b", marginTop: 5 }}>
-          © 2024 GDG BGU Blog. All rights reserved.
+          © 2026 GDG BGU Blog. All rights reserved.
         </div>
         <div style={{ display: "flex", gap: 20, textAlign: "center", marginTop: 5 }}>
           {["Privacy", "Terms", "Contact"].map((item) => (

@@ -21,8 +21,70 @@ interface Blog {
 
 // ── Mock Data ──────────────────────────────────────────────────────────────
 const allBlogs: Blog[] = [
+  // ── IDs 1–4 (from featured articles on home page) ──
   {
     id: 1,
+    title: "Flutter & Mobile Dev",
+    author: "Authory Saram",
+    publishDate: "October 1, 2023",
+    readTime: 6,
+    excerpt:
+      "Developing with cross-platform frameworks to build elegant, high-performance mobile applications using Flutter and Dart.",
+    category: "Mobile Dev",
+    categoryColor: "#38bdf8",
+    cardBg: "#1a1a2e",
+    textDark: false,
+    icon: "📲",
+    commentCount: 14,
+  },
+  {
+    id: 2,
+    title: "AI in Healthcare",
+    author: "Annan Kager",
+    publishDate: "October 8, 2023",
+    readTime: 7,
+    excerpt:
+      "Leveraging AI for predictive diagnostics and research breakthroughs in modern medicine and campus health initiatives.",
+    category: "AI",
+    categoryColor: "#818cf8",
+    cardBg: "#0f172a",
+    textDark: false,
+    icon: "🏥",
+    commentCount: 19,
+  },
+  {
+    id: 3,
+    title: "Google Cloud Workshop",
+    author: "Aram Negev",
+    publishDate: "October 15, 2023",
+    readTime: 5,
+    excerpt:
+      "Practical applications of Google Cloud services for scalable, production-ready solutions built and tested at BGU.",
+    category: "Cloud",
+    categoryColor: "#4285F4",
+    cardBg: "#e8f0fe",
+    textDark: true,
+    icon: "☁️",
+    commentCount: 11,
+  },
+  {
+    id: 4,
+    title: "BGU Tech Projects Showcase",
+    author: "Student Projects Team",
+    publishDate: "October 20, 2023",
+    readTime: 4,
+    excerpt:
+      "Student Projects Showcase: innovative, locally-crafted creations by talented BGU developers presented at the annual showcase.",
+    category: "Showcase",
+    categoryColor: "#34d399",
+    cardBg: "#1e293b",
+    textDark: false,
+    icon: "🚀",
+    commentCount: 27,
+  },
+  // ── IDs 5–10 (original blogs) ──
+  {
+    id: 5,
     title: "Demystifying Cloud Computing on Campus",
     author: "Alex Johnson",
     publishDate: "October 26, 2023",
@@ -37,7 +99,7 @@ const allBlogs: Blog[] = [
     commentCount: 12,
   },
   {
-    id: 2,
+    id: 6,
     title: "The Future of Robotics: A Campus Perspective",
     author: "Priya Mehta",
     publishDate: "October 26, 2023",
@@ -52,7 +114,7 @@ const allBlogs: Blog[] = [
     commentCount: 8,
   },
   {
-    id: 3,
+    id: 7,
     title: "Optimizing Stadium Operations with Tech",
     author: "Rohan Das",
     publishDate: "October 26, 2023",
@@ -67,7 +129,7 @@ const allBlogs: Blog[] = [
     commentCount: 15,
   },
   {
-    id: 4,
+    id: 8,
     title: "From Code to Campus: Building an App",
     author: "Sara Nkosi",
     publishDate: "October 26, 2023",
@@ -82,7 +144,7 @@ const allBlogs: Blog[] = [
     commentCount: 21,
   },
   {
-    id: 5,
+    id: 9,
     title: "Optimizing Innovations with Tech",
     author: "James Okafor",
     publishDate: "November 3, 2023",
@@ -97,7 +159,7 @@ const allBlogs: Blog[] = [
     commentCount: 6,
   },
   {
-    id: 6,
+    id: 10,
     title: "Intro to Machine Learning for Beginners",
     author: "Ananya Iyer",
     publishDate: "November 10, 2023",
@@ -113,11 +175,21 @@ const allBlogs: Blog[] = [
   },
 ];
 
-const categories = ["All", "Cloud Computing", "AI & Robotics", "Campus Innovations", "Campus Projects"];
+const categories = [
+  "All",
+  "Mobile Dev",
+  "AI",
+  "Cloud",
+  "Showcase",
+  "Cloud Computing",
+  "AI & Robotics",
+  "Campus Innovations",
+  "Campus Projects",
+];
 
 const recentPosts = allBlogs.slice(0, 5);
 
-// ── Global Styles (same as home page) ─────────────────────────────────────
+// ── Global Styles ──────────────────────────────────────────────────────────
 const globalStyles = `
   @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap');
 
@@ -139,7 +211,6 @@ const globalStyles = `
   }
   .nav-link.active::after { left: 0; right: 0; }
 
-  /* Blog listing layout */
   .blog-layout {
     display: grid;
     grid-template-columns: 1fr 300px;
@@ -156,7 +227,6 @@ const globalStyles = `
     .blog-layout { padding: 24px 16px; }
   }
 
-  /* Blog cards grid */
   .blog-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -166,7 +236,6 @@ const globalStyles = `
     .blog-grid { grid-template-columns: 1fr; }
   }
 
-  /* Card hover */
   .blog-card {
     border-radius: 16px;
     overflow: hidden;
@@ -183,7 +252,6 @@ const globalStyles = `
     transform: translateY(-4px);
   }
 
-  /* Category filter pills */
   .cat-pill {
     padding: 7px 18px;
     border-radius: 20px;
@@ -200,7 +268,6 @@ const globalStyles = `
   .cat-pill:hover { border-color: #1a73e8; color: #1a73e8; background: #e8f0fe; }
   .cat-pill.active { border-color: #1a73e8; color: #fff; background: #1a73e8; }
 
-  /* Sidebar card */
   .sidebar-card {
     background: #fff;
     border-radius: 16px;
@@ -209,7 +276,6 @@ const globalStyles = `
     margin-bottom: 20px;
   }
 
-  /* Recent post item hover */
   .recent-item {
     padding: 10px 0;
     border-bottom: 1px solid #f1f3f4;
@@ -221,7 +287,6 @@ const globalStyles = `
   .recent-item:last-child { border-bottom: none; }
   .recent-item:hover .recent-title { color: #1a73e8; }
 
-  /* Sidebar category item */
   .sidebar-cat {
     display: flex;
     align-items: center;
@@ -234,13 +299,11 @@ const globalStyles = `
   .sidebar-cat:last-child { border-bottom: none; }
   .sidebar-cat:hover { color: #1a73e8; }
 
-  /* Btn effects */
   .btn-primary { transition: background 0.2s, transform 0.15s; }
   .btn-primary:hover { background: #1558b0 !important; transform: translateY(-1px); }
   .btn-outline { transition: background 0.2s, transform 0.15s; }
   .btn-outline:hover { background: rgba(26,115,232,0.08) !important; transform: translateY(-1px); }
 
-  /* Navbar */
   .nav-inner {
     max-width: 1200px;
     margin: 0 auto;
@@ -282,7 +345,6 @@ const globalStyles = `
     z-index: 99; box-shadow: 0 4px 16px rgba(0,0,0,0.08);
   }
 
-  /* Footer */
   .footer-inner {
     display: flex; align-items: center; justify-content: space-between;
     flex-wrap: wrap; gap: 16px;
@@ -292,7 +354,6 @@ const globalStyles = `
     .footer-inner { flex-direction: column; align-items: center; text-align: center; padding: 28px 20px; }
   }
 
-  /* Search bar */
   .search-bar {
     display: flex; align-items: center; gap: 10px;
     background: #f1f3f4; border-radius: 24px; padding: 10px 18px;
@@ -408,7 +469,7 @@ function Footer() {
     <footer style={{ background: "#f8f9fa", borderTop: "1px solid #e8eaed" }}>
       <div className="footer-inner">
         <GDGLogo />
-        <div style={{ fontSize: 13, color: "#80868b", marginTop: 5 }}>© 2024 GDG BGU Blog. All rights reserved.</div>
+        <div style={{ fontSize: 13, color: "#80868b", marginTop: 5 }}>© 2026 GDG BGU Blog. All rights reserved.</div>
         <div style={{ display: "flex", gap: 20, marginTop: 5 }}>
           {["Privacy", "Terms", "Contact"].map((item) => (
             <span key={item} style={{ fontSize: 13, color: "#1a73e8", cursor: "pointer", fontWeight: 500 }}>{item}</span>
@@ -427,26 +488,19 @@ function BlogCard({ blog, delay = 0 }: { blog: Blog; delay?: number }) {
       className="blog-card fade-up"
       style={{ animationDelay: `${delay}ms` }}
     >
-      {/* Color banner with icon */}
       <div style={{ background: blog.cardBg, height: 150, position: "relative", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
-        {/* Decorative circles */}
         <div style={{ position: "absolute", top: -20, right: -20, width: 100, height: 100, borderRadius: "50%", background: "rgba(255,255,255,0.06)" }} />
         <div style={{ position: "absolute", bottom: -30, left: -20, width: 120, height: 120, borderRadius: "50%", background: "rgba(255,255,255,0.04)" }} />
-
         <span style={{ fontSize: 52, filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.2))", zIndex: 1 }}>{blog.icon}</span>
-
-        {/* Category badge */}
         <span style={{
           position: "absolute", top: 14, left: 14,
           background: blog.categoryColor + "25",
           border: `1px solid ${blog.categoryColor}55`,
-          color: blog.textDark ? blog.categoryColor : blog.categoryColor,
+          color: blog.categoryColor,
           fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 12, letterSpacing: "0.5px",
         }}>
           {blog.category}
         </span>
-
-        {/* Read time badge */}
         <span style={{
           position: "absolute", top: 14, right: 14,
           background: "rgba(255,255,255,0.15)",
@@ -459,14 +513,11 @@ function BlogCard({ blog, delay = 0 }: { blog: Blog; delay?: number }) {
         </span>
       </div>
 
-      {/* Content */}
       <div style={{ padding: "18px 20px 22px", flex: 1, display: "flex", flexDirection: "column" }}>
         <h3 style={{ fontWeight: 700, fontSize: 16, color: "#202124", lineHeight: 1.35, marginBottom: 6 }}>
           {blog.title}
         </h3>
-
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-          {/* Author avatar */}
           <div style={{ width: 22, height: 22, borderRadius: "50%", background: "linear-gradient(135deg, #1a73e8, #34A853)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, color: "#fff", fontWeight: 700 }}>
             {blog.author.charAt(0)}
           </div>
@@ -474,11 +525,9 @@ function BlogCard({ blog, delay = 0 }: { blog: Blog; delay?: number }) {
           <span style={{ fontSize: 12, color: "#dadce0" }}>•</span>
           <span style={{ fontSize: 12, color: "#80868b" }}>{blog.publishDate}</span>
         </div>
-
         <p style={{ fontSize: 13, color: "#5f6368", lineHeight: 1.65, margin: 0, flex: 1 }}>
           {blog.excerpt}
         </p>
-
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 18 }}>
           <span style={{ color: "#1a73e8", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
             Read more
@@ -501,6 +550,10 @@ function BlogCard({ blog, delay = 0 }: { blog: Blog; delay?: number }) {
 // ── Sidebar ────────────────────────────────────────────────────────────────
 function Sidebar({ activeCategory, onCategoryChange }: { activeCategory: string; onCategoryChange: (cat: string) => void }) {
   const categoryIcons: Record<string, string> = {
+    "Mobile Dev": "📲",
+    "AI": "🏥",
+    "Cloud": "☁️",
+    "Showcase": "🚀",
     "Cloud Computing": "☁",
     "AI & Robotics": "🤖",
     "Campus Innovations": "💡",
@@ -509,7 +562,6 @@ function Sidebar({ activeCategory, onCategoryChange }: { activeCategory: string;
 
   return (
     <aside className="sidebar">
-      {/* Categories */}
       <div className="sidebar-card">
         <h3 style={{ fontSize: 15, fontWeight: 700, color: "#202124", marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ width: 3, height: 18, background: "#1a73e8", borderRadius: 2, display: "inline-block" }} />
@@ -527,7 +579,6 @@ function Sidebar({ activeCategory, onCategoryChange }: { activeCategory: string;
         </div>
       </div>
 
-      {/* Recent Posts */}
       <div className="sidebar-card">
         <h3 style={{ fontSize: 15, fontWeight: 700, color: "#202124", marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ width: 3, height: 18, background: "#34A853", borderRadius: 2, display: "inline-block" }} />
@@ -545,7 +596,6 @@ function Sidebar({ activeCategory, onCategoryChange }: { activeCategory: string;
         ))}
       </div>
 
-      {/* Newsletter CTA */}
       <div style={{ background: "linear-gradient(135deg, #1a73e8 0%, #34A853 100%)", borderRadius: 16, padding: "22px 20px", textAlign: "center" }}>
         <div style={{ fontSize: 24, marginBottom: 10 }}>📬</div>
         <h3 style={{ fontSize: 14, fontWeight: 700, color: "#fff", marginBottom: 8 }}>Stay in the Loop</h3>
@@ -569,18 +619,15 @@ function PageBanner() {
       padding: "40px 60px 32px",
     }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        {/* Breadcrumb */}
         <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: "#80868b", marginBottom: 16 }}>
           <Link href="/" style={{ color: "#1a73e8", textDecoration: "none", fontWeight: 500 }}>Home</Link>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#80868b" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg>
           <span style={{ color: "#3c4043" }}>Blog</span>
         </div>
-
         <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(26,115,232,0.08)", border: "1px solid rgba(26,115,232,0.2)", borderRadius: 20, padding: "5px 14px", fontSize: 11, fontWeight: 600, color: "#1a73e8", letterSpacing: "0.5px", marginBottom: 16, textTransform: "uppercase" as const }}>
           <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#34A853", display: "inline-block" }} />
           GDG BGU Blog
         </div>
-
         <h1 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 700, color: "#202124", letterSpacing: "-0.5px", marginBottom: 10 }}>
           All Articles
         </h1>
@@ -613,9 +660,7 @@ export default function BlogListingPage() {
       <PageBanner />
 
       <div className="blog-layout">
-        {/* Main Content */}
         <main>
-          {/* Search bar */}
           <div className="search-bar">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#80868b" strokeWidth="2">
               <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -631,7 +676,6 @@ export default function BlogListingPage() {
             )}
           </div>
 
-          {/* Category filter pills */}
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" as const, marginBottom: 28, overflowX: "auto" as const, paddingBottom: 4 }}>
             {categories.map((cat) => (
               <button
@@ -644,14 +688,12 @@ export default function BlogListingPage() {
             ))}
           </div>
 
-          {/* Results count */}
           <div style={{ fontSize: 13, color: "#80868b", marginBottom: 20, fontWeight: 500 }}>
             {filtered.length} article{filtered.length !== 1 ? "s" : ""}
             {activeCategory !== "All" && ` in ${activeCategory}`}
             {searchQuery && ` matching "${searchQuery}"`}
           </div>
 
-          {/* Blog grid */}
           {filtered.length > 0 ? (
             <div className="blog-grid">
               {filtered.map((blog, i) => (
@@ -674,7 +716,6 @@ export default function BlogListingPage() {
           )}
         </main>
 
-        {/* Sidebar */}
         <Sidebar activeCategory={activeCategory} onCategoryChange={setActiveCategory} />
       </div>
 
