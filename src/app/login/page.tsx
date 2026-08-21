@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input'
 import { SiteNavbar } from '@/components/site-navbar'
 import { SiteFooter } from '@/components/site-footer'
 
-function GoogleIcon(props: React.SVGProps<SVGSVGElement>) {
+function GoogleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg viewBox="0 0 24 24" width="20" height="20" {...props}>
       <path
@@ -105,16 +105,6 @@ function LoginForm() {
           <GoogleIcon />
           <span>Sign in with Google (BGU Account)</span>
         </Button>
-
-      {/* should be removed only for testing */}
-        <div className="relative flex items-center justify-center">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-border" />
-          </div>
-          <span className="relative bg-background px-3 text-xs uppercase tracking-wider text-muted-foreground font-semibold">
-            Or Sign In via Member Email
-          </span>
-        </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">

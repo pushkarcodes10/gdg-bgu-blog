@@ -5,14 +5,12 @@ import { getToken } from 'next-auth/jwt'
 const SESSION_COOKIE_NAME = 'gdg_member_session'
 const secret = process.env.NEXTAUTH_SECRET || 'gdg-bgu-secret-key-change-in-production'
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Protect /admin routes
   if (pathname.startsWith('/admin')) {
     let isAuthorized = false
 
-    // 1. Check NextAuth JWT token
     try {
       const token = await getToken({ req: request, secret })
       if (token?.email) {
@@ -22,7 +20,6 @@ export async function middleware(request: NextRequest) {
       isAuthorized = false
     }
 
-    // 2. Fallback check for session cookie
     if (!isAuthorized) {
       const sessionCookie = request.cookies.get(SESSION_COOKIE_NAME)?.value
       if (sessionCookie) {
@@ -48,5 +45,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/admin', '/admin/:path*'],
 }

@@ -25,12 +25,20 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user }) {
       if (!user?.email) return false
-      // Strict Whitelist Check: User's Google email must be in MongoDB MEMBER_WHITELIST
-      return await isAllowedMember(user.email)
+      // Strict Whitelist Check: User's Google email must be in MongoDB or INITIAL_MEMBER_WHITELIST
+      const allowed = await isAllowedMember(user.email)
+      return allowed
     },
-    async session({ session }) {
-      if (session?.user?.email) {
-        const member = await getMemberByEmail(session.user.email)
+    async jwt({ token, user }) {
+      if (user?.email) {
+        token.email = user.email
+      }
+      return token
+    },
+    async session({ session, token }) {
+      const email = session?.user?.email || (token?.email as string | undefined)
+      if (email) {
+        const member = await getMemberByEmail(email)
         if (member) {
           session.user.role = member.role
           session.user.systemRole = member.systemRole
@@ -42,7 +50,7 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: '/login',
-    error: '/unauthorized',
+    error: '/login',
   },
   session: {
     strategy: 'jwt',

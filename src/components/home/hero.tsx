@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, Code2, Sparkles, Terminal, Users } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { publishedBlogs } from '@/lib/blog-db'
 
 const floatingCards = [
   {
@@ -27,7 +28,10 @@ const floatingCards = [
   },
 ]
 
-export function Hero() {
+export async function Hero() {
+  const blogs = await publishedBlogs()
+  const blogCount = blogs.length
+
   return (
     <section className="relative overflow-hidden">
       <div className="pointer-events-none absolute inset-0 bg-grid [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)]" />
@@ -65,7 +69,7 @@ export function Hero() {
 
           <div className="mt-10 flex items-center gap-6 text-sm text-muted-foreground">
             <span className="inline-flex items-center gap-2">
-              <Code2 className="h-4 w-4 text-primary" /> 0 blogs
+              <Code2 className="h-4 w-4 text-primary" /> {blogCount} {blogCount === 1 ? 'blog' : 'blogs'}
             </span>
             <span className="inline-flex items-center gap-2">
               <Users className="h-4 w-4 text-[var(--google-green)]" /> 10+ events / year

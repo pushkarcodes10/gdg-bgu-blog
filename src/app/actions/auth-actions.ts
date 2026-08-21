@@ -34,6 +34,6 @@ export async function loginWithEmailDirect(email: string, callbackUrl: string = 
 
 export async function logoutAction() {
   await deleteSession()
-  redirect('/login')
+  return { success: true }
 }
 

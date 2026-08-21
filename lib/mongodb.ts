@@ -18,19 +18,20 @@ if (!global.mongooseCache) {
   global.mongooseCache = cached
 }
 
+mongoose.set('bufferCommands', false)
+
 export async function connectToDatabase(): Promise<typeof mongoose | null> {
   if (!MONGODB_URI || MONGODB_URI.includes('your_mongodb_uri')) {
     return null
   }
 
-  if (cached.conn) {
+  if (cached.conn && mongoose.connection.readyState === 1) {
     return cached.conn
   }
 
   if (!cached.promise) {
     const opts = {
-      bufferCommands: false,
-      serverSelectionTimeoutMS: 2000, // Quick timeout for connection attempt
+      serverSelectionTimeoutMS: 3000, // Quick 3s timeout for connection attempt
     }
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((m) => {
@@ -40,9 +41,13 @@ export async function connectToDatabase(): Promise<typeof mongoose | null> {
 
   try {
     cached.conn = await cached.promise
+    if (mongoose.connection.readyState !== 1) {
+      return null
+    }
   } catch (e: any) {
     cached.promise = null
-    console.warn(`[MongoDB Info] Connection attempt to ${MONGODB_URI} failed: ${e.message}. Using fallback data.`)
+    cached.conn = null
+    console.warn(`[MongoDB Info] Connection attempt failed: ${e?.message || e}. Using fallback data.`)
     return null
   }
 

@@ -20,6 +20,7 @@ import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
 import { Member } from '@/lib/members'
+import { signOut } from 'next-auth/react'
 import { logoutAction } from '@/app/actions/auth-actions'
 
 const nav = [
@@ -55,6 +56,7 @@ function SidebarContent({ user, onNavigate }: { user?: Member | null; onNavigate
   const handleLogout = () => {
     startTransition(async () => {
       await logoutAction()
+      await signOut({ callbackUrl: '/login' })
     })
   }
 

@@ -1,14 +1,23 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
-import { communityStats } from '@/lib/blog-data'
+import { publishedBlogs } from '@/lib/blog-db'
 import { Button } from '@/components/ui/button'
 
-export function Community() {
+export async function Community() {
+  const blogs = await publishedBlogs()
+
+  const stats = [
+    { label: 'Community Members', value: '150+', color: 'var(--google-blue)' },
+    { label: 'Blogs Published', value: `${blogs.length}`, color: 'var(--google-green)' },
+    { label: 'Workshops Hosted', value: '12', color: 'var(--google-yellow)' },
+    { label: 'Events This Year', value: '3', color: 'var(--google-red)' },
+  ]
+
   return (
     <section id="community" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-16 lg:px-8 lg:py-24">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {communityStats.map((stat) => (
+        {stats.map((stat) => (
           <div
             key={stat.label}
             className="rounded-2xl border border-border bg-card p-6 transition-colors hover:border-primary/40"
