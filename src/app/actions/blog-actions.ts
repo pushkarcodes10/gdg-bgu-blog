@@ -76,6 +76,8 @@ export async function createBlogAction(formData: FormData) {
     avatar: session.user.avatar || (session.user as any).image || undefined,
   }
 
+  const contentMdx = formData.get('contentMdx')?.toString()?.trim() || contentBody
+
   try {
     await BlogModel.create({
       slug,
@@ -93,6 +95,7 @@ export async function createBlogAction(formData: FormData) {
       featured,
       content: sections,
       contentHtml: contentBody,
+      contentMdx,
     })
 
     revalidatePath('/')
@@ -185,6 +188,8 @@ export async function updateBlogAction(originalSlug: string, formData: FormData)
   const wordCount = contentBody.split(/\s+/).filter(Boolean).length
   const readingTime = Math.max(1, Math.ceil(wordCount / 200))
 
+  const contentMdx = formData.get('contentMdx')?.toString()?.trim() || contentBody
+
   try {
     const existing = await BlogModel.findOne({ slug: originalSlug })
     if (!existing) {
@@ -204,6 +209,7 @@ export async function updateBlogAction(originalSlug: string, formData: FormData)
         status,
         content: sections,
         contentHtml: contentBody,
+        contentMdx,
       }
     )
 

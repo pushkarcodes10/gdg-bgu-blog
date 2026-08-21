@@ -17,6 +17,7 @@ export interface IBlogDocument extends Document {
   featured?: boolean
   content: Section[]
   contentHtml?: string
+  contentMdx?: string
   createdAt: Date
   updatedAt: Date
 }
@@ -65,6 +66,7 @@ const BlogSchema: Schema = new Schema<IBlogDocument>(
     featured: { type: Boolean, default: false },
     content: [SectionSchema],
     contentHtml: { type: String },
+    contentMdx: { type: String },
   },
   {
     timestamps: true,

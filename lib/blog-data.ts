@@ -31,6 +31,7 @@ export type Blog = {
   featured?: boolean
   content: Section[]
   contentHtml?: string
+  contentMdx?: string
 }
 
 export const categories: Category[] = [

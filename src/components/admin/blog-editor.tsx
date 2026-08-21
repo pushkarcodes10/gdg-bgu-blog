@@ -174,7 +174,8 @@ export function BlogEditor({ initialBlog }: BlogEditorProps = {}) {
     formData.append("category", category)
     formData.append("cover", cover)
     formData.append("status", status === "published" ? "Published" : "Draft")
-    formData.append("content", content) // now HTML, not markdown
+    formData.append("content", content)
+    formData.append("contentMdx", content)
 
     startTransition(async () => {
       const res = isEditing && initialBlog
