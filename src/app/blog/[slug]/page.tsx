@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, Calendar, Clock, Eye } from 'lucide-react'
+import { getSession } from '@/lib/auth'
+import { ArrowLeft, Calendar, Clock, Eye, Pencil } from 'lucide-react'
 import { SiteNavbar } from '@/components/site-navbar'
 import { SiteFooter } from '@/components/site-footer'
 import { TableOfContents } from '@/components/blog/table-of-contents'
@@ -10,9 +11,14 @@ import { ReadingProgress } from '@/components/blog/reading-progress'
 import { CategoryBadge, BlogCard } from '@/components/blog-card'
 import { AuthorTag } from '@/components/author-tag'
 import { formatDate } from '@/lib/blog-data'
-import { getAllBlogs, getBlog, relatedBlogs } from '@/lib/blog-db'
+import { getAllBlogs, getBlog, publishedBlogs, relatedBlogs } from '@/lib/blog-db'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 3600 // regenerate every hour
+
+export async function generateStaticParams() {
+  const blogs = await publishedBlogs()
+  return blogs.map((b) => ({ slug: b.slug }))
+}
 
 export async function generateMetadata({
   params,
@@ -37,6 +43,8 @@ export default async function BlogDetailPage({
   const blog = await getBlog(slug)
   if (!blog) notFound()
 
+  const session = await getSession()
+  const canEdit = Boolean(session?.user)
   const related = await relatedBlogs(blog)
 
   return (
@@ -46,13 +54,25 @@ export default async function BlogDetailPage({
       <main className="flex-1">
         <article>
           <header className="mx-auto max-w-3xl px-5 pt-12 lg:px-8 lg:pt-16">
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Back to all articles
-            </Link>
+            <div className="flex items-center justify-between">
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to all articles
+              </Link>
+
+              {canEdit && (
+                <Link
+                  href={`/admin/blogs/edit/${blog.slug}`}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3.5 py-1.5 text-xs font-medium text-foreground shadow-sm transition-colors hover:bg-primary hover:text-white"
+                >
+                  <Pencil className="h-3.5 w-3.5" />
+                  Edit article
+                </Link>
+              )}
+            </div>
 
             <div className="mt-6">
               <CategoryBadge category={blog.category} />
@@ -103,18 +123,25 @@ export default async function BlogDetailPage({
             </aside>
 
             <div className="mx-auto w-full max-w-2xl lg:mx-0">
-              {blog.content.map((section) => (
-                <section key={section.id} id={section.id} className="scroll-mt-24 pb-10">
-                  <h2 className="text-pretty text-2xl font-semibold tracking-tight text-foreground">
-                    {section.heading}
-                  </h2>
-                  {section.body.map((paragraph, i) => (
-                    <p key={i} className="mt-4 text-[17px] leading-8 text-foreground/85">
-                      {paragraph}
-                    </p>
-                  ))}
-                </section>
-              ))}
+              {blog.contentHtml ? (
+                <div
+                  className="prose dark:prose-invert max-w-none text-[17px] leading-8 text-foreground/85 [&_h1]:text-3xl [&_h1]:font-bold [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:text-xl [&_h3]:font-semibold [&_p]:mt-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_blockquote]:border-l-4 [&_blockquote]:border-primary [&_blockquote]:pl-4 [&_blockquote]:italic [&_img]:rounded-2xl [&_img]:my-4"
+                  dangerouslySetInnerHTML={{ __html: blog.contentHtml }}
+                />
+              ) : (
+                blog.content.map((section) => (
+                  <section key={section.id} id={section.id} className="scroll-mt-24 pb-10">
+                    <h2 className="text-pretty text-2xl font-semibold tracking-tight text-foreground">
+                      {section.heading}
+                    </h2>
+                    {section.body.map((paragraph, i) => (
+                      <p key={i} className="mt-4 text-[17px] leading-8 text-foreground/85">
+                        {paragraph}
+                      </p>
+                    ))}
+                  </section>
+                ))
+              )}
 
               <div className="mt-4 flex flex-wrap items-center gap-3 rounded-2xl border border-border bg-secondary/40 p-6">
                 <AuthorTag author={blog.author} size="lg" showRole />

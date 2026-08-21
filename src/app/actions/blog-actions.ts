@@ -26,7 +26,8 @@ export async function createBlogAction(formData: FormData) {
   const description = formData.get('description')?.toString()?.trim()
   const category = formData.get('category')?.toString() as Category
   const cover = formData.get('cover')?.toString()?.trim() || '/placeholder.svg'
-  const status = (formData.get('status')?.toString() as BlogStatus) || 'Published'
+  const rawStatus = formData.get('status')?.toString()?.toLowerCase()
+  const status: BlogStatus = rawStatus === 'draft' ? 'Draft' : 'Published'
   const featured = formData.get('featured') === 'true' || formData.get('featured') === 'on'
   const contentBody = formData.get('content')?.toString()?.trim() || ''
 
@@ -72,6 +73,7 @@ export async function createBlogAction(formData: FormData) {
     role: session.user.role || 'Member',
     initials: authorInitials,
     color: 'var(--google-blue)',
+    avatar: session.user.avatar || (session.user as any).image || undefined,
   }
 
   try {
@@ -79,7 +81,9 @@ export async function createBlogAction(formData: FormData) {
       slug,
       title,
       description,
+      excerpt: description,
       cover,
+      coverImage: cover,
       category,
       author: authorObj,
       date: new Date().toISOString(),
@@ -88,6 +92,7 @@ export async function createBlogAction(formData: FormData) {
       views: 0,
       featured,
       content: sections,
+      contentHtml: contentBody,
     })
 
     revalidatePath('/')
@@ -143,4 +148,73 @@ export async function togglePublishBlogAction(slug: string, currentStatus: BlogS
   } catch (err: any) {
     return { error: err.message || 'Failed to update blog status.' }
   }
+}
+
+export async function updateBlogAction(originalSlug: string, formData: FormData) {
+  const session = await getSession()
+  if (!session?.user) {
+    return { error: 'Unauthorized. You must be signed in.' }
+  }
+
+  const title = formData.get('title')?.toString()?.trim()
+  const description = formData.get('description')?.toString()?.trim()
+  const category = formData.get('category')?.toString() as Category
+  const cover = formData.get('cover')?.toString()?.trim() || '/placeholder.svg'
+  const rawStatus = formData.get('status')?.toString()?.toLowerCase()
+  const status: BlogStatus = rawStatus === 'draft' ? 'Draft' : 'Published'
+  const contentBody = formData.get('content')?.toString()?.trim() || ''
+
+  if (!title || !description || !category) {
+    return { error: 'Title, description, and category are required.' }
+  }
+
+  const db = await connectToDatabase()
+  if (!db) {
+    return { error: 'Database connection error. Please check MONGODB_URI.' }
+  }
+
+  const paragraphs = contentBody.split('\n\n').filter(Boolean)
+  const sections = [
+    {
+      id: 'section-1',
+      heading: 'Overview',
+      body: paragraphs.length > 0 ? paragraphs : [description],
+    },
+  ]
+
+  const wordCount = contentBody.split(/\s+/).filter(Boolean).length
+  const readingTime = Math.max(1, Math.ceil(wordCount / 200))
+
+  try {
+    const existing = await BlogModel.findOne({ slug: originalSlug })
+    if (!existing) {
+      return { error: 'Blog post not found.' }
+    }
+
+    await BlogModel.updateOne(
+      { slug: originalSlug },
+      {
+        title,
+        description,
+        excerpt: description,
+        cover,
+        coverImage: cover,
+        category,
+        readingTime,
+        status,
+        content: sections,
+        contentHtml: contentBody,
+      }
+    )
+
+    revalidatePath('/')
+    revalidatePath('/blog')
+    revalidatePath(`/blog/${originalSlug}`)
+    revalidatePath('/admin')
+    revalidatePath('/admin/blogs')
+  } catch (err: any) {
+    return { error: err.message || 'Failed to update blog post in MongoDB.' }
+  }
+
+  redirect('/admin/blogs')
 }
