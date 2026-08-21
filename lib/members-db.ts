@@ -11,25 +11,22 @@ async function ensureMembersSeeded() {
   const db = await connectToDatabase()
   if (!db) return
   try {
-    const count = await MemberModel.countDocuments()
-    if (count === 0) {
-      for (const m of INITIAL_MEMBER_WHITELIST) {
-        await MemberModel.findOneAndUpdate(
-          { id: m.id },
-          {
-            $set: {
-              id: m.id,
-              name: m.name,
-              email: m.email.toLowerCase(),
-              role: m.role,
-              systemRole: m.systemRole,
-              avatar: m.avatar,
-              isAllowed: m.isAllowed ?? true,
-            },
+    for (const m of INITIAL_MEMBER_WHITELIST) {
+      await MemberModel.findOneAndUpdate(
+        { email: m.email.toLowerCase() },
+        {
+          $setOnInsert: {
+            id: m.id,
+            name: m.name,
+            email: m.email.toLowerCase(),
+            role: m.role,
+            systemRole: m.systemRole,
+            avatar: m.avatar,
+            isAllowed: m.isAllowed ?? true,
           },
-          { upsert: true, returnDocument: 'after' }
-        )
-      }
+        },
+        { upsert: true }
+      )
     }
     isSeeded = true
   } catch (err) {
@@ -63,7 +60,8 @@ export const getMemberByEmail = cache(async (email: string | null | undefined): 
   if (db) {
     await ensureMembersSeeded()
     const memberDoc = await MemberModel.findOne({ email: normalizedEmail }).lean()
-    if (memberDoc && memberDoc.isAllowed !== false) {
+    if (memberDoc) {
+      if (memberDoc.isAllowed === false) return null
       return {
         id: memberDoc.id || (memberDoc._id as any).toString(),
         name: memberDoc.name,
@@ -74,10 +72,14 @@ export const getMemberByEmail = cache(async (email: string | null | undefined): 
         isAllowed: memberDoc.isAllowed ?? true,
       }
     }
-    return null
   }
 
-  return INITIAL_MEMBER_WHITELIST.find((m) => m.email.toLowerCase() === normalizedEmail) || null
+  const staticMember = INITIAL_MEMBER_WHITELIST.find((m) => m.email.toLowerCase() === normalizedEmail)
+  if (staticMember && staticMember.isAllowed !== false) {
+    return staticMember
+  }
+
+  return null
 })
 
 export async function isAllowedMember(email: string | null | undefined): Promise<boolean> {

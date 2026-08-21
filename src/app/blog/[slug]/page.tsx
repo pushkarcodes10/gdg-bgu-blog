@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getSession } from '@/lib/auth'
@@ -101,19 +100,6 @@ export default async function BlogDetailPage({
               </div>
             </div>
           </header>
-
-          <div className="mx-auto mt-10 max-w-5xl px-5 lg:px-8">
-            <div className="relative aspect-[16/8] overflow-hidden rounded-3xl border border-border">
-              <Image
-                src={blog.cover || '/placeholder.svg'}
-                alt=""
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 1024px"
-                className="object-cover"
-              />
-            </div>
-          </div>
 
           <div className="mx-auto mt-12 grid max-w-6xl gap-12 px-5 pb-4 lg:grid-cols-[220px_1fr] lg:px-8">
             <aside className="hidden lg:block">

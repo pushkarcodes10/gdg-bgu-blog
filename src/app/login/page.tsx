@@ -106,7 +106,7 @@ function LoginForm() {
           <span>Sign in with Google (BGU Account)</span>
         </Button>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4" suppressHydrationWarning>
           <div className="space-y-2">
             <label htmlFor="email" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Email Address

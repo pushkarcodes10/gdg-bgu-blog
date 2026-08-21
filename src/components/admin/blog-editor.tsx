@@ -6,12 +6,15 @@ import { useMemo, useRef, useState } from "react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowLeft, Eye, Save, Upload } from "lucide-react"
+import { ArrowLeft, Calendar, Clock, Eye, Save, Upload, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
+import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { CategoryBadge } from "@/components/blog-card"
+import { AuthorTag } from "@/components/author-tag"
 import {
   Select,
   SelectContent,
@@ -94,6 +97,7 @@ export function BlogEditor({ initialBlog }: BlogEditorProps = {}) {
   )
   const [error, setError] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false)
 
   const [customCover, setCustomCover] = useState<string | null>(initialBlog?.cover || null)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -201,7 +205,12 @@ export function BlogEditor({ initialBlog }: BlogEditorProps = {}) {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Button type="button" variant="outline" className="gap-2 bg-transparent">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => setIsPreviewOpen(true)}
+            className="gap-2 bg-transparent"
+          >
             <Eye className="h-4 w-4" />
             Preview
           </Button>
@@ -351,6 +360,74 @@ export function BlogEditor({ initialBlog }: BlogEditorProps = {}) {
           </div>
         </aside>
       </div>
+
+      <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0 rounded-3xl border border-border bg-background shadow-2xl">
+          <div className="sticky top-0 z-20 flex items-center justify-between border-b border-border bg-background/95 backdrop-blur-md px-6 py-4">
+            <div className="flex items-center gap-3">
+              <span className="flex h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-sm font-semibold text-foreground">Live Article Preview</span>
+            </div>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsPreviewOpen(false)}
+              className="rounded-full h-8 w-8 hover:bg-muted"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+
+          <div className="p-6 md:p-10">
+            <article className="max-w-3xl mx-auto">
+              <div className="mb-4">
+                <CategoryBadge category={category} />
+              </div>
+
+              <h1 className="text-balance text-3xl md:text-4xl font-bold leading-[1.15] tracking-tight text-foreground">
+                {title || "Untitled Blog Post"}
+              </h1>
+
+              <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+                {excerpt || "No summary provided yet."}
+              </p>
+
+              <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-y border-border py-4 my-6">
+                <AuthorTag
+                  author={
+                    initialBlog?.author || {
+                      name: "GDG Member",
+                      role: "Contributor",
+                      initials: "MB",
+                      color: "var(--google-blue)",
+                    }
+                  }
+                  size="lg"
+                  showRole
+                />
+                <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                  <span className="inline-flex items-center gap-1.5">
+                    <Calendar className="h-3.5 w-3.5" />
+                    {new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <Clock className="h-3.5 w-3.5" />
+                    {readTime} min read
+                  </span>
+                </div>
+              </div>
+
+              <div
+                className="prose dark:prose-invert max-w-none text-[17px] leading-8 text-foreground/85 [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:my-4 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:mt-8 [&_h2]:mb-4 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:mt-6 [&_h3]:mb-3 [&_p]:mt-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-4 [&_blockquote]:border-l-4 [&_blockquote]:border-primary [&_blockquote]:pl-4 [&_blockquote]:italic [&_img]:rounded-2xl [&_img]:my-4 [&_pre]:bg-muted [&_pre]:p-4 [&_pre]:rounded-xl [&_pre]:overflow-x-auto [&_code]:font-mono [&_code]:text-sm"
+                dangerouslySetInnerHTML={{
+                  __html: content || '<p class="text-muted-foreground italic">Start writing content in the editor to preview it here...</p>',
+                }}
+              />
+            </article>
+          </div>
+        </DialogContent>
+      </Dialog>
     </form>
   )
 }
