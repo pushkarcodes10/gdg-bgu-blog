@@ -4,7 +4,7 @@ import { getMemberByEmail, isAllowedMember } from '@/lib/members-db'
 
 declare module 'next-auth' {
   interface Session {
-    user: {
+    user?: {
       name?: string | null
       email?: string | null
       image?: string | null
@@ -39,7 +39,7 @@ export const authOptions: NextAuthOptions = {
       const email = session?.user?.email || (token?.email as string | undefined)
       if (email) {
         const member = await getMemberByEmail(email)
-        if (member) {
+        if (member && session.user) {
           session.user.role = member.role
           session.user.systemRole = member.systemRole
           session.user.avatar = member.avatar || session.user.image || undefined
