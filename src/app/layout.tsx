@@ -20,7 +20,10 @@ export const metadata: Metadata = {
     'Explore technical blogs, workshops, events, and insights from Google Developer Groups On Campus Birla Global University.',
   generator: 'v0.app',
   icons: {
-    icon: '/logo.png',
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/logo.png', type: 'image/png' },
+    ],
     shortcut: '/logo.png',
     apple: '/logo.png',
   },

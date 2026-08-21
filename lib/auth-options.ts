@@ -30,8 +30,11 @@ export const authOptions: NextAuthOptions = {
       return allowed
     },
     async jwt({ token, user }) {
-      if (user?.email) {
+      if (user) {
         token.email = user.email
+        if (user.image) {
+          token.picture = user.image
+        }
       }
       return token
     },
@@ -39,10 +42,17 @@ export const authOptions: NextAuthOptions = {
       const email = session?.user?.email || (token?.email as string | undefined)
       if (email) {
         const member = await getMemberByEmail(email)
-        if (member && session.user) {
-          session.user.role = member.role
-          session.user.systemRole = member.systemRole
-          session.user.avatar = member.avatar || session.user.image || undefined
+        if (session.user) {
+          if (token.picture) {
+            session.user.image = token.picture as string
+          }
+          if (member) {
+            session.user.role = member.role
+            session.user.systemRole = member.systemRole
+            session.user.avatar = member.avatar || session.user.image || (token.picture as string) || undefined
+          } else {
+            session.user.avatar = session.user.image || (token.picture as string) || undefined
+          }
         }
       }
       return session

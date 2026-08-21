@@ -116,16 +116,45 @@ export function BlogEditor({ initialBlog }: BlogEditorProps = {}) {
     const file = e.target.files?.[0]
     if (!file) return
 
-    if (file.size > 5 * 1024 * 1024) {
-      setError("Image file size should be less than 5MB.")
+    if (file.size > 10 * 1024 * 1024) {
+      setError("Image file size should be less than 10MB.")
       return
     }
 
     const reader = new FileReader()
-    reader.onloadend = () => {
-      if (typeof reader.result === "string") {
-        setCustomCover(reader.result)
-        setError(null)
+    reader.onload = (event) => {
+      const img = new window.Image()
+      img.onload = () => {
+        const MAX_WIDTH = 1200
+        const MAX_HEIGHT = 800
+        let width = img.width
+        let height = img.height
+
+        if (width > MAX_WIDTH) {
+          height = Math.round((height * MAX_WIDTH) / width)
+          width = MAX_WIDTH
+        }
+        if (height > MAX_HEIGHT) {
+          width = Math.round((width * MAX_HEIGHT) / height)
+          height = MAX_HEIGHT
+        }
+
+        const canvas = document.createElement("canvas")
+        canvas.width = width
+        canvas.height = height
+        const ctx = canvas.getContext("2d")
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height)
+          const compressedBase64 = canvas.toDataURL("image/jpeg", 0.85)
+          setCustomCover(compressedBase64)
+          setError(null)
+        } else if (typeof event.target?.result === "string") {
+          setCustomCover(event.target.result)
+          setError(null)
+        }
+      }
+      if (typeof event.target?.result === "string") {
+        img.src = event.target.result
       }
     }
     reader.readAsDataURL(file)

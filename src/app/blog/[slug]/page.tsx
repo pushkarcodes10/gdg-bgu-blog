@@ -125,19 +125,23 @@ export default async function BlogDetailPage({
             <div className="mx-auto w-full max-w-2xl lg:mx-0">
               {blog.contentHtml ? (
                 <div
-                  className="prose dark:prose-invert max-w-none text-[17px] leading-8 text-foreground/85 [&_h1]:text-3xl [&_h1]:font-bold [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:text-xl [&_h3]:font-semibold [&_p]:mt-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_blockquote]:border-l-4 [&_blockquote]:border-primary [&_blockquote]:pl-4 [&_blockquote]:italic [&_img]:rounded-2xl [&_img]:my-4"
+                  className="prose dark:prose-invert max-w-none text-[17px] leading-8 text-foreground/85 [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:my-4 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:mt-8 [&_h2]:mb-4 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:mt-6 [&_h3]:mb-3 [&_p]:mt-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-4 [&_blockquote]:border-l-4 [&_blockquote]:border-primary [&_blockquote]:pl-4 [&_blockquote]:italic [&_img]:rounded-2xl [&_img]:my-4 [&_pre]:bg-muted [&_pre]:p-4 [&_pre]:rounded-xl [&_pre]:overflow-x-auto [&_code]:font-mono [&_code]:text-sm"
                   dangerouslySetInnerHTML={{ __html: blog.contentHtml }}
                 />
               ) : (
                 blog.content.map((section) => (
                   <section key={section.id} id={section.id} className="scroll-mt-24 pb-10">
-                    <h2 className="text-pretty text-2xl font-semibold tracking-tight text-foreground">
-                      {section.heading}
-                    </h2>
+                    {section.heading && (
+                      <h2 className="text-pretty text-2xl font-semibold tracking-tight text-foreground">
+                        {section.heading}
+                      </h2>
+                    )}
                     {section.body.map((paragraph, i) => (
-                      <p key={i} className="mt-4 text-[17px] leading-8 text-foreground/85">
-                        {paragraph}
-                      </p>
+                      <div
+                        key={i}
+                        className="prose dark:prose-invert max-w-none mt-4 text-[17px] leading-8 text-foreground/85 [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:my-4 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:mt-8 [&_h2]:mb-4 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:mt-6 [&_h3]:mb-3 [&_p]:mt-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-4 [&_blockquote]:border-l-4 [&_blockquote]:border-primary [&_blockquote]:pl-4 [&_blockquote]:italic [&_img]:rounded-2xl [&_img]:my-4 [&_pre]:bg-muted [&_pre]:p-4 [&_pre]:rounded-xl [&_pre]:overflow-x-auto [&_code]:font-mono [&_code]:text-sm"
+                        dangerouslySetInnerHTML={{ __html: paragraph }}
+                      />
                     ))}
                   </section>
                 ))

@@ -99,7 +99,7 @@ export const getBlog = cache(async (slug: string): Promise<Blog | null> => {
         views: (doc.views || 0) + 1,
         featured: doc.featured || false,
         content: doc.content || [],
-        contentHtml: doc.contentHtml,
+        contentHtml: doc.contentHtml || (Array.isArray(doc.content) ? doc.content.flatMap((s: any) => s.body || []).join('') : undefined),
       }
     }
     return null
